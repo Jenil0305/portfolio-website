@@ -46,18 +46,18 @@ const HorizontalTrack = () => {
       <div ref={TrackRef} className="flex h-full w-[300vw] items-center">
         
         {/* Stop 1: The Aesthetic */}
-        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-20 shrink-0">
-          <div className="w-full max-w-4xl flex items-center gap-12">
-            <div className="flex-1 space-y-6">
-              <div className="flex items-center gap-4 text-brand-neon">
-                <Sparkles size={40} />
-                <h3 className="text-4xl font-light uppercase tracking-widest">The Aesthetic</h3>
+        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-6 sm:p-20 shrink-0">
+          <div className="w-full max-w-4xl flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            <div className="flex-1 space-y-4 lg:space-y-6 text-center lg:text-left">
+              <div className="flex items-center justify-center lg:justify-start gap-4 text-brand-neon">
+                <Sparkles size={32} className="lg:w-10 lg:h-10 shrink-0" />
+                <h3 className="text-3xl lg:text-4xl font-light uppercase tracking-widest">The Aesthetic</h3>
               </div>
-              <p className="text-xl text-neutral-400 font-light leading-relaxed">
+              <p className="text-lg lg:text-xl text-neutral-400 font-light leading-relaxed">
                 Interfaces so precise they feel inevitable. JNlabs crafts every pixel with purpose — glassmorphic layers, fluid motion, and hyper-responsive layouts built in Tailwind and vanilla CSS. Design isn't decoration. It's conversion architecture.
               </p>
             </div>
-            <div className="flex-1 h-96 relative">
+            <div className="hidden lg:block flex-1 h-96 relative">
               {/* Frosted glass dummy UI elements */}
               <div className="absolute top-10 left-10 w-64 h-32 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl skew-y-3 hover:skew-y-0 transition-transform duration-500" />
               <div className="absolute top-40 right-10 w-48 h-48 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_0_50px_rgba(57,255,20,0.1)] -skew-x-6 z-10" />
@@ -67,18 +67,18 @@ const HorizontalTrack = () => {
         </div>
 
         {/* Stop 2: The Engine */}
-        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-20 shrink-0 bg-[#111]">
-          <div className="w-full max-w-4xl flex items-center gap-12 flex-row-reverse">
-            <div className="flex-1 space-y-6">
-              <div className="flex items-center gap-4 text-white">
-                <Code2 size={40} className="text-blue-500" />
-                <h3 className="text-4xl font-light uppercase tracking-widest">The Engine</h3>
+        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-6 sm:p-20 shrink-0 bg-[#111]">
+          <div className="w-full max-w-4xl flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-12">
+            <div className="flex-1 space-y-4 lg:space-y-6 text-center lg:text-left">
+              <div className="flex items-center justify-center lg:justify-start gap-4 text-white">
+                <Code2 size={32} className="lg:w-10 lg:h-10 text-blue-500 shrink-0" />
+                <h3 className="text-3xl lg:text-4xl font-light uppercase tracking-widest">The Engine</h3>
               </div>
-              <p className="text-xl text-neutral-400 font-light leading-relaxed">
+              <p className="text-lg lg:text-xl text-neutral-400 font-light leading-relaxed">
                 React, Next.js, Vite, and Three.js form the backbone of every JNlabs build. Type-safe, component-driven, and optimized for brutal performance — each site is engineered to load fast, scale clean, and never break under pressure.
               </p>
             </div>
-            <div className="flex-1 h-96 relative flex items-center justify-center">
+            <div className="hidden lg:flex flex-1 h-96 relative items-center justify-center">
               {/* Fake Code Block */}
               <div className="w-full h-full bg-[#1e1e1e] rounded-xl border border-[#333] p-6 shadow-2xl flex flex-col font-mono text-sm">
                 <div className="flex gap-2 mb-4">
@@ -100,18 +100,18 @@ const HorizontalTrack = () => {
         </div>
 
         {/* Stop 3: The AI Edge */}
-        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-20 shrink-0 bg-black">
-          <div className="w-full max-w-5xl flex items-center justify-center flex-col text-center space-y-10">
-            <BrainCircuit size={80} className="text-brand-neon animate-pulse" />
-            <h3 className="text-6xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-brand-neon to-blue-500">
+        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-6 sm:p-20 shrink-0 bg-black">
+          <div className="w-full max-w-5xl flex items-center justify-center flex-col text-center space-y-6 lg:space-y-10">
+            <BrainCircuit size={64} className="text-brand-neon animate-pulse hidden sm:block" />
+            <h3 className="text-4xl sm:text-6xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-brand-neon to-blue-500">
               The AI Edge
             </h3>
-            <p className="text-2xl text-neutral-400 max-w-2xl font-light leading-relaxed">
+            <p className="text-lg sm:text-2xl text-neutral-400 max-w-2xl font-light leading-relaxed">
               AI isn't a buzzword here — it's in the pipeline. JNlabs uses generative models, automated asset creation, and intelligent code acceleration to ship in days what used to take weeks. The result: premium output, without the premium timeline.
             </p>
             
             {/* Glowing nodes fake setup */}
-            <div className="relative w-full max-w-lg h-32 flex justify-between items-center mt-12">
+            <div className="hidden lg:flex relative w-full max-w-lg h-32 justify-between items-center mt-12">
               <div className="w-16 h-16 rounded-full bg-white/10 border border-brand-neon flex items-center justify-center animate-ping">
                 <div className="w-4 h-4 bg-brand-neon rounded-full" />
               </div>

@@ -18,14 +18,13 @@ const PortalHero = () => {
         pin: true,
         scrub: true,
         anticipatePin: 1,
-        fastScrollEnd: true, // Speeds up the "release" phase
-        preventOverlaps: true, // Prevents scroll jumps
       }
     });
 
     tl.to(textRef.current, {
-      scale: 100, // High scale but manageable for HTML
-      autoAlpha: 0, // visibility:hidden + opacity:0 when done
+      scale: 30, // Reduced from 100 to prevent compositor layer dumping
+      opacity: 0, // Swapped from autoAlpha to avoid visibility toggling reflows
+      rotation: 0.01, // Forces strict GPU matrix layout, stops reverse lag
       ease: 'none',
       force3D: true,
       z: 0.1, // Force 3D context
@@ -48,13 +47,13 @@ const PortalHero = () => {
       {/* Hardware-accelerated HTML Text */}
       <div 
         ref={textRef} 
-        className="relative z-10 flex flex-col items-center justify-center pointer-events-none will-change-transform backface-hidden"
-        style={{ transformOrigin: '50% 50%' }}
+        className="relative z-10 flex flex-col items-center justify-center pointer-events-none backface-hidden"
+        style={{ transformOrigin: '50% 50%', willChange: 'transform, opacity' }}
       >
-        <h1 className="text-[18vw] leading-none font-black tracking-tighter text-white uppercase drop-shadow-[0_0_50px_rgba(57,255,20,0.3)]">
+        <h1 className="text-[25vw] sm:text-[18vw] leading-none font-black tracking-tighter text-white uppercase drop-shadow-[0_0_50px_rgba(57,255,20,0.3)]">
           JN<span className="text-brand-neon">LABS</span>
         </h1>
-        <p className="mt-4 text-2xl md:text-3xl font-light tracking-[0.6em] uppercase text-neutral-500 whitespace-nowrap">
+        <p className="mt-4 text-sm sm:text-2xl md:text-3xl font-light tracking-[0.3em] sm:tracking-[0.6em] uppercase text-neutral-500 whitespace-nowrap">
           3D × WEB × AI
         </p>
       </div>

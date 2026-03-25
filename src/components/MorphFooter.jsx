@@ -30,24 +30,24 @@ const MorphFooter = () => {
   }, []);
 
   return (
-    <footer ref={footerRef} className="relative w-full min-h-screen bg-[#050505] text-white flex items-center justify-center overflow-hidden py-32 border-t border-white/5">
+    <footer ref={footerRef} className="relative w-full min-h-screen bg-[#050505] text-white flex items-center justify-center overflow-hidden py-24 md:py-32 border-t border-white/5">
       
       {/* Subtle Neon Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brand-neon/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div ref={contentRef} className="relative z-10 w-full max-w-6xl mx-auto px-10 flex flex-col md:flex-row items-center justify-between gap-20">
+      <div ref={contentRef} className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
         
         {/* Massive Mail Link */}
-        <div className="flex-1">
-          <h2 className="text-[10vw] md:text-[8vw] font-black leading-none tracking-tighter uppercase text-white hover:text-brand-neon transition-colors duration-500 cursor-pointer">
-            Let's <br/>Build.
+        <div className="flex-1 text-center md:text-left mt-10 md:mt-0">
+          <h2 className="text-[20vw] md:text-[8vw] font-black leading-none tracking-tighter uppercase text-white hover:text-brand-neon transition-colors duration-500 cursor-pointer">
+            Let's <br className="hidden md:block"/>Build.
           </h2>
-          <p className="mt-8 text-2xl font-light text-neutral-400">You've got a vision. JNlabs has the tools, the team, and the AI pipeline to make it real — fast.</p>
+          <p className="mt-6 md:mt-8 text-lg sm:text-2xl font-light text-neutral-400">You've got a vision. JNlabs has the tools, the team, and the AI pipeline to make it real — fast.</p>
         </div>
 
         {/* Minimal Parallax Form in Dark Mode */}
         <div className="flex-1 w-full max-w-md">
-          <form className="flex flex-col gap-8 w-full bg-white/5 backdrop-blur-2xl border border-white/10 p-10 rounded-3xl shadow-2xl">
+          <form className="flex flex-col gap-6 md:gap-8 w-full bg-white/5 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold tracking-widest uppercase text-brand-neon focus-within:text-white transition-colors">Name</label>
               <input 

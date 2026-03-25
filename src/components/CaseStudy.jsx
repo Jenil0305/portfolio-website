@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -10,90 +10,192 @@ const CaseStudy = () => {
   const lidRef = useRef(null);
   const screenContentRef = useRef(null);
   const panelsRef = useRef([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Master timeline
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: '+=400%', // 4x scroll length
-        pin: true,
-        scrub: 1,
-      }
-    });
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-    // Phase 1: Open Lid (Lid rotates from closed to open)
-    // Assuming closed means rotateX(-90deg) assuming hinge is at the bottom.
-    tl.to(lidRef.current, {
-      rotateX: 0,
-      duration: 1,
-      ease: 'power2.inOut'
-    }, 0);
-
-    // Turn on screen content opacity
-    tl.to(screenContentRef.current, {
-      opacity: 1,
-      duration: 0.2
-    }, 0.8);
-
-    // Phase 2: Zoom into the screen
-    // We scale the whole laptop up significantly so the screen viewport fills the screen
-    tl.to(laptopRef.current, {
-      scale: 5,
-      y: '120vh', // Move it down so the screen centers
-      duration: 1.5,
-      ease: 'power3.inOut'
-    }, 1);
-
-    // Phase 3: Blur background (screen) and show panels sequentially
-    tl.to(screenContentRef.current, {
-      filter: 'blur(5px) brightness(0.5)',
-      duration: 0.5
-    }, 2.5);
-
-    // Stagger in panels
-    panelsRef.current.forEach((panel, index) => {
-      // Panel enters
-      tl.fromTo(panel, 
-        { autoAlpha: 0, x: index % 2 === 0 ? -100 : 100 }, 
-        { autoAlpha: 1, x: 0, duration: 0.5 }, 
-        2.5 + index * 0.8
+  useEffect(() => {
+    if (isMobile) {
+      // Mobile: Simple fade-in animation without complex 3D transforms
+      gsap.fromTo(laptopRef.current,
+        { autoAlpha: 0, scale: 0.8 },
+        {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 70%',
+          }
+        }
       );
-      // Panel leaves (except the last one which leaves on scale down)
-      if (index < panelsRef.current.length - 1) {
-        tl.to(panel, {
-          autoAlpha: 0,
-          x: index % 2 === 0 ? 100 : -100,
-          duration: 0.5
-        }, 3.0 + index * 0.8);
-      }
-    });
 
-    // Phase 4: Scale down into a clickable card
-    tl.to(laptopRef.current, {
-      scale: 1,
-      y: 0,
-      duration: 1,
-      ease: 'power2.inOut'
-    }, '+=0.5');
+      // Show screen content immediately
+      gsap.set(screenContentRef.current, { opacity: 1 });
 
-    // Remove blur and panels for exit state
-    tl.to(screenContentRef.current, {
-      filter: 'blur(0px) brightness(1)',
-      duration: 0.5
-    }, '<');
+      // Stagger in panels with simple animation
+      panelsRef.current.forEach((panel) => {
+        gsap.fromTo(panel,
+          { autoAlpha: 0, y: 30 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: panel,
+              start: 'top 85%',
+            }
+          }
+        );
+      });
+    } else {
+      // Desktop: Full 3D animation
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=400%',
+          pin: true,
+          scrub: 1,
+        }
+      });
 
-    tl.to(panelsRef.current[panelsRef.current.length - 1], {
-      autoAlpha: 0,
-      duration: 0.5
-    }, '<');
+      // Phase 1: Open Lid
+      tl.to(lidRef.current, {
+        rotateX: 0,
+        duration: 1,
+        ease: 'power2.inOut'
+      }, 0);
+
+      // Turn on screen content opacity
+      tl.to(screenContentRef.current, {
+        opacity: 1,
+        duration: 0.2
+      }, 0.8);
+
+      // Phase 2: Zoom into the screen
+      tl.to(laptopRef.current, {
+        scale: 5,
+        y: '120vh',
+        duration: 1.5,
+        ease: 'power3.inOut'
+      }, 1);
+
+      // Phase 3: Blur background and show panels
+      tl.to(screenContentRef.current, {
+        filter: 'blur(5px) brightness(0.5)',
+        duration: 0.5
+      }, 2.5);
+
+      // Stagger in panels
+      panelsRef.current.forEach((panel, index) => {
+        tl.fromTo(panel,
+          { autoAlpha: 0, x: index % 2 === 0 ? -100 : 100 },
+          { autoAlpha: 1, x: 0, duration: 0.5 },
+          2.5 + index * 0.8
+        );
+        if (index < panelsRef.current.length - 1) {
+          tl.to(panel, {
+            autoAlpha: 0,
+            x: index % 2 === 0 ? 100 : -100,
+            duration: 0.5
+          }, 3.0 + index * 0.8);
+        }
+      });
+
+      // Phase 4: Scale down
+      tl.to(laptopRef.current, {
+        scale: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.inOut'
+      }, '+=0.5');
+
+      tl.to(screenContentRef.current, {
+        filter: 'blur(0px) brightness(1)',
+        duration: 0.5
+      }, '<');
+
+      tl.to(panelsRef.current[panelsRef.current.length - 1], {
+        autoAlpha: 0,
+        duration: 0.5
+      }, '<');
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, []);
+  }, [isMobile]);
 
+  // Mobile Layout - Simplified card-based view
+  if (isMobile) {
+    return (
+      <section ref={containerRef} className="relative w-full min-h-screen bg-black overflow-hidden py-16 px-4">
+        <h2 className="text-3xl font-black text-center mb-8 tracking-tighter uppercase text-white">
+          Featured Work
+        </h2>
+        
+        {/* Mobile Laptop Card */}
+        <div ref={laptopRef} className="relative w-full max-w-md mx-auto bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl">
+          {/* Screen Content */}
+          <div 
+            ref={screenContentRef}
+            className="relative w-full aspect-video bg-cover bg-center"
+            style={{ 
+              backgroundImage: `url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=2000&auto=format&fit=crop')` 
+            }}
+          >
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+            <div className="relative z-10 w-full h-full flex flex-col p-4 justify-center items-center text-center">
+              <h1 className="text-xl font-serif text-white mb-2">Lumiere Salon</h1>
+              <p className="text-sm text-white/80 mb-3">Where Luxury Meets the Booking Button</p>
+              <button className="px-4 py-2 bg-white text-black text-xs uppercase rounded-lg font-bold">Reserve Spot</button>
+            </div>
+          </div>
+        </div>
+
+        {/* Achievement Panels - Stacked vertically on mobile */}
+        <div className="mt-8 space-y-4 max-w-md mx-auto">
+          <div 
+            ref={el => panelsRef.current[0] = el}
+            className="p-5 bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl text-white"
+          >
+            <h3 className="text-lg font-bold mb-2 text-brand-neon">Modernized the Booking Flow</h3>
+            <p className="text-sm text-neutral-300">Replaced a clunky multi-step form with a single-page, AI-guided booking experience — cutting drop-offs by 40%.</p>
+          </div>
+
+          <div 
+            ref={el => panelsRef.current[1] = el}
+            className="p-5 bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl text-white"
+          >
+            <h3 className="text-lg font-bold mb-2 text-brand-neon">Lightning Fast Load Times</h3>
+            <p className="text-sm text-neutral-300">A perfect 100 Lighthouse score. Next-gen image formats, edge caching, and zero render-blocking scripts.</p>
+          </div>
+
+          <div 
+            ref={el => panelsRef.current[2] = el}
+            className="p-5 bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl text-white"
+          >
+            <h3 className="text-lg font-bold mb-2 text-brand-neon">AI-Generated Visual Assets</h3>
+            <p className="text-sm text-neutral-300">Every hero image, banner, and background was generated via Stable Diffusion pipelines.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Desktop Layout - Full 3D animation
   return (
     <section ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden flex items-center justify-center perspective-[2000px]">
       
@@ -112,7 +214,6 @@ const CaseStudy = () => {
           >
             {/* Back of Lid (Aluminum cover) */}
             <div className="absolute inset-0 bg-neutral-800 rounded-t-3xl border border-neutral-700 backface-hidden flex items-center justify-center transform rotate-y-180 translate-z-[1px]">
-              {/* Fake glowing apple/logo */}
               <div className="w-16 h-16 bg-white/20 blur-sm rounded-full" />
             </div>
 
@@ -142,13 +243,13 @@ const CaseStudy = () => {
                   </div>
                 </div>
 
-                {/* Floating Panels Container (Rendered on top of the screen content) */}
+                {/* Floating Panels Container */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-20 flex items-center justify-center perspective-[1000px]">
                   
                   {/* Panel A */}
                   <div 
                     ref={el => panelsRef.current[0] = el}
-                    className="absolute p-6 w-[70%] sm:w-[60%] bg-black/80 sm:bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
+                    className="absolute p-6 w-[70%] sm:w-[60%] bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
                     style={{ visibility: 'hidden' }}
                   >
                     <h3 className="text-xl sm:text-3xl font-bold mb-2 text-brand-neon">Modernized the Booking Flow</h3>
@@ -158,7 +259,7 @@ const CaseStudy = () => {
                   {/* Panel B */}
                   <div 
                     ref={el => panelsRef.current[1] = el}
-                    className="absolute p-6 w-[70%] sm:w-[60%] bg-black/80 sm:bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
+                    className="absolute p-6 w-[70%] sm:w-[60%] bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
                     style={{ visibility: 'hidden' }}
                   >
                     <h3 className="text-xl sm:text-3xl font-bold mb-2 text-brand-neon">Lightning Fast Load Times</h3>
@@ -168,7 +269,7 @@ const CaseStudy = () => {
                   {/* Panel C */}
                   <div 
                     ref={el => panelsRef.current[2] = el}
-                    className="absolute p-6 w-[70%] sm:w-[60%] bg-black/80 sm:bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
+                    className="absolute p-6 w-[70%] sm:w-[60%] bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
                     style={{ visibility: 'hidden' }}
                   >
                     <h3 className="text-xl sm:text-3xl font-bold mb-2 text-brand-neon">AI-Generated Visual Assets</h3>
@@ -200,11 +301,6 @@ const CaseStudy = () => {
           </div>
 
         </div>
-      </div>
-
-      {/* Final Exit State Call to Action (Hidden during animation, could be revealed at end) */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 opacity-0 pointer-events-none transition-opacity duration-1000 group-hover:opacity-100">
-         {/* This is a placeholder for the "Visit Live Site" button logic */}
       </div>
 
     </section>

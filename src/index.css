@@ -9,6 +9,14 @@
   color-scheme: dark;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background-color: #000;
@@ -16,6 +24,7 @@ body {
   overflow-x: hidden;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Lenis smooth scrolling styles */
@@ -33,4 +42,34 @@ html.lenis, html.lenis body {
 }
 .lenis.lenis-smooth iframe {
   pointer-events: none;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 767px) {
+  /* Prevent horizontal scroll on mobile */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
+  
+  /* Better touch scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix for 3D transforms on mobile */
+  .perspective-\[2000px\] {
+    perspective: 1000px;
+  }
+}
+
+/* Improve text rendering on mobile */
+@media (max-width: 480px) {
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  
+  p {
+    text-wrap: pretty;
+  }
 }

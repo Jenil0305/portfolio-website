@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code2, Sparkles, BrainCircuit } from 'lucide-react';
@@ -8,52 +8,89 @@ gsap.registerPlugin(ScrollTrigger);
 const HorizontalTrack = () => {
   const SectionRef = useRef(null);
   const TrackRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const trackWidth = TrackRef.current.scrollWidth;
-    const windowWidth = window.innerWidth;
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: SectionRef.current,
-        start: 'top top',
-        end: () => `+=${trackWidth}`,
-        pin: true,
-        scrub: 1,
-        invalidateOnRefresh: true,
-      }
-    });
+  useEffect(() => {
+    // Only apply horizontal scroll on non-mobile devices
+    if (isMobile) {
+      // On mobile, just animate items fading in as they scroll
+      const items = TrackRef.current.querySelectorAll('.stack-item');
+      items.forEach((item) => {
+        gsap.fromTo(item,
+          { autoAlpha: 0, y: 50 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 80%',
+            }
+          }
+        );
+      });
+    } else {
+      // Desktop: Horizontal scroll effect
+      const trackWidth = TrackRef.current.scrollWidth;
+      const windowWidth = window.innerWidth;
 
-    tl.to(TrackRef.current, {
-      x: () => -(trackWidth - windowWidth),
-      ease: 'none',
-    });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: SectionRef.current,
+          start: 'top top',
+          end: () => `+=${trackWidth}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      tl.to(TrackRef.current, {
+        x: () => -(trackWidth - windowWidth),
+        ease: 'none',
+      });
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, []);
+  }, [isMobile]);
 
   return (
-    <section ref={SectionRef} className="relative w-full h-screen bg-[#0a0a0a] overflow-hidden">
+    <section ref={SectionRef} className={`relative w-full ${isMobile ? '' : 'h-screen'} bg-[#0a0a0a] overflow-hidden`}>
       
       {/* Absolute Title Pinned basically */}
-      <h2 className="absolute top-12 left-12 text-6xl font-bold tracking-tight text-white/50 z-10 
+      <h2 className="absolute top-6 sm:top-12 left-6 sm:left-12 text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white/50 z-10 
                      mix-blend-overlay uppercase">
         The Stack
       </h2>
 
-      <div ref={TrackRef} className="flex h-full w-[300vw] items-center">
+      <div 
+        ref={TrackRef} 
+        className={`flex ${isMobile ? 'flex-col' : 'h-full w-[300vw]'} items-center`}
+      >
         
         {/* Stop 1: The Aesthetic */}
-        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-6 sm:p-20 shrink-0">
-          <div className="w-full max-w-4xl flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        <div className={`stack-item ${isMobile ? 'w-full min-h-screen' : 'w-[100vw] h-full'} flex flex-col justify-center items-center p-6 sm:p-10 md:p-20 shrink-0`}>
+          <div className="w-full max-w-4xl flex flex-col lg:flex-row items-center gap-6 lg:gap-12">
             <div className="flex-1 space-y-4 lg:space-y-6 text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start gap-4 text-brand-neon">
-                <Sparkles size={32} className="lg:w-10 lg:h-10 shrink-0" />
-                <h3 className="text-3xl lg:text-4xl font-light uppercase tracking-widest">The Aesthetic</h3>
+              <div className="flex items-center justify-center lg:justify-start gap-3 text-brand-neon">
+                <Sparkles size={28} className="lg:w-10 lg:h-10 shrink-0" />
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-light uppercase tracking-widest">The Aesthetic</h3>
               </div>
-              <p className="text-lg lg:text-xl text-neutral-400 font-light leading-relaxed">
+              <p className="text-base sm:text-lg lg:text-xl text-neutral-400 font-light leading-relaxed">
                 Interfaces so precise they feel inevitable. JNlabs crafts every pixel with purpose — glassmorphic layers, fluid motion, and hyper-responsive layouts built in Tailwind and vanilla CSS. Design isn't decoration. It's conversion architecture.
               </p>
             </div>
@@ -67,14 +104,14 @@ const HorizontalTrack = () => {
         </div>
 
         {/* Stop 2: The Engine */}
-        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-6 sm:p-20 shrink-0 bg-[#111]">
-          <div className="w-full max-w-4xl flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-12">
+        <div className={`stack-item ${isMobile ? 'w-full min-h-screen' : 'w-[100vw] h-full'} flex flex-col justify-center items-center p-6 sm:p-10 md:p-20 shrink-0 bg-[#111]`}>
+          <div className="w-full max-w-4xl flex flex-col lg:flex-row-reverse items-center gap-6 lg:gap-12">
             <div className="flex-1 space-y-4 lg:space-y-6 text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start gap-4 text-white">
-                <Code2 size={32} className="lg:w-10 lg:h-10 text-blue-500 shrink-0" />
-                <h3 className="text-3xl lg:text-4xl font-light uppercase tracking-widest">The Engine</h3>
+              <div className="flex items-center justify-center lg:justify-start gap-3 text-white">
+                <Code2 size={28} className="lg:w-10 lg:h-10 text-blue-500 shrink-0" />
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-light uppercase tracking-widest">The Engine</h3>
               </div>
-              <p className="text-lg lg:text-xl text-neutral-400 font-light leading-relaxed">
+              <p className="text-base sm:text-lg lg:text-xl text-neutral-400 font-light leading-relaxed">
                 React, Next.js, Vite, and Three.js form the backbone of every JNlabs build. Type-safe, component-driven, and optimized for brutal performance — each site is engineered to load fast, scale clean, and never break under pressure.
               </p>
             </div>
@@ -100,13 +137,13 @@ const HorizontalTrack = () => {
         </div>
 
         {/* Stop 3: The AI Edge */}
-        <div className="w-[100vw] h-full flex flex-col justify-center items-center p-6 sm:p-20 shrink-0 bg-black">
-          <div className="w-full max-w-5xl flex items-center justify-center flex-col text-center space-y-6 lg:space-y-10">
-            <BrainCircuit size={64} className="text-brand-neon animate-pulse hidden sm:block" />
-            <h3 className="text-4xl sm:text-6xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-brand-neon to-blue-500">
+        <div className={`stack-item ${isMobile ? 'w-full min-h-screen' : 'w-[100vw] h-full'} flex flex-col justify-center items-center p-6 sm:p-10 md:p-20 shrink-0 bg-black`}>
+          <div className="w-full max-w-5xl flex items-center justify-center flex-col text-center space-y-4 lg:space-y-10">
+            <BrainCircuit size={48} className="text-brand-neon animate-pulse sm:block hidden" />
+            <h3 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-brand-neon to-blue-500">
               The AI Edge
             </h3>
-            <p className="text-lg sm:text-2xl text-neutral-400 max-w-2xl font-light leading-relaxed">
+            <p className="text-base sm:text-lg md:text-2xl text-neutral-400 max-w-2xl font-light leading-relaxed">
               AI isn't a buzzword here — it's in the pipeline. JNlabs uses generative models, automated asset creation, and intelligent code acceleration to ship in days what used to take weeks. The result: premium output, without the premium timeline.
             </p>
             

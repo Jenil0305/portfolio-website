@@ -60,7 +60,7 @@ const SocialsSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full min-h-[70vh] bg-black text-white flex flex-col items-center justify-center overflow-hidden py-24 md:py-32 border-t border-white/5">
+    <section ref={sectionRef} className="relative w-full min-h-[60vh] sm:min-h-[70vh] bg-black text-white flex flex-col items-center justify-center overflow-hidden py-16 sm:py-20 md:py-24 lg:py-32 border-t border-white/5">
       
       {/* Background massive text */}
       <div 
@@ -70,16 +70,16 @@ const SocialsSection = () => {
         CONNECT CONNECT CONNECT CONNECT
       </div>
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-10 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-10 flex flex-col items-center text-center">
         
-        <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4 tracking-tighter uppercase">
           Find JNlabs on the Grid
         </h2>
-        <p className="text-xl font-light text-neutral-400 max-w-2xl mb-20">
+        <p className="text-base sm:text-lg md:text-xl font-light text-neutral-400 max-w-2xl mb-10 sm:mb-14 md:mb-20 px-2">
           Whether you want to dig through open-source commits, see what's shipping next, or skip straight to a conversation — the links are below. JNlabs is always one click away.
         </p>
 
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 md:gap-10 w-full">
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10 w-full">
           {socials.map((social, idx) => {
             const Icon = social.icon;
             return (
@@ -89,10 +89,10 @@ const SocialsSection = () => {
                 href={social.url}
                 target="_blank"
                 rel="noreferrer"
-                className={`group flex items-center justify-center sm:justify-start gap-3 sm:gap-4 px-6 sm:px-8 py-4 sm:py-5 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md transition-all duration-300 ${social.bg} hover:border-white/30 hover:scale-105`}
+                className={`group flex items-center justify-center sm:justify-start gap-3 sm:gap-4 px-5 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-lg sm:rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md transition-all duration-300 ${social.bg} hover:border-white/30 hover:scale-105`}
               >
-                <Icon size={24} className={`text-neutral-400 transition-colors duration-300 ${social.color} sm:w-[28px] sm:h-[28px]`} />
-                <span className="text-base sm:text-xl font-bold tracking-widest uppercase text-neutral-300 group-hover:text-white transition-colors duration-300">
+                <Icon size={20} className={`text-neutral-400 transition-colors duration-300 ${social.color} sm:w-[24px] sm:h-[24px] md:w-[28px] md:h-[28px]`} />
+                <span className="text-sm sm:text-base md:text-xl font-bold tracking-widest uppercase text-neutral-300 group-hover:text-white transition-colors duration-300">
                   {social.name}
                 </span>
               </a>

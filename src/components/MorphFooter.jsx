@@ -30,30 +30,30 @@ const MorphFooter = () => {
   }, []);
 
   return (
-    <footer ref={footerRef} className="relative w-full min-h-screen bg-[#050505] text-white flex items-center justify-center overflow-hidden py-24 md:py-32 border-t border-white/5">
+    <footer ref={footerRef} className="relative w-full min-h-screen bg-[#050505] text-white flex items-center justify-center overflow-hidden py-16 sm:py-20 md:py-24 lg:py-32 border-t border-white/5">
       
       {/* Subtle Neon Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-brand-neon/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] sm:w-[600px] md:w-[800px] h-[250px] sm:h-[400px] md:h-[500px] bg-brand-neon/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] pointer-events-none" />
 
-      <div ref={contentRef} className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
+      <div ref={contentRef} className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 sm:gap-10 md:gap-20">
         
         {/* Massive Mail Link */}
-        <div className="flex-1 text-center md:text-left mt-10 md:mt-0">
-          <h2 className="text-[20vw] md:text-[8vw] font-black leading-none tracking-tighter uppercase text-white hover:text-brand-neon transition-colors duration-500 cursor-pointer">
+        <div className="flex-1 text-center md:text-left mt-4 sm:mt-6 md:mt-0">
+          <h2 className="text-[15vw] sm:text-[12vw] md:text-[8vw] font-black leading-none tracking-tighter uppercase text-white hover:text-brand-neon transition-colors duration-500 cursor-pointer">
             Let's <br className="hidden md:block"/>Build.
           </h2>
-          <p className="mt-6 md:mt-8 text-lg sm:text-2xl font-light text-neutral-400">You've got a vision. JNlabs has the tools, the team, and the AI pipeline to make it real — fast.</p>
+          <p className="mt-4 sm:mt-6 md:mt-8 text-base sm:text-lg md:text-xl lg:text-2xl font-light text-neutral-400">You've got a vision. JNlabs has the tools, the team, and the AI pipeline to make it real — fast.</p>
         </div>
 
         {/* Minimal Parallax Form in Dark Mode */}
         <div className="flex-1 w-full max-w-md">
-          <form className="flex flex-col gap-6 md:gap-8 w-full bg-white/5 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl">
+          <form className="flex flex-col gap-4 sm:gap-6 md:gap-8 w-full bg-white/5 backdrop-blur-2xl border border-white/10 p-5 sm:p-6 md:p-10 rounded-2xl sm:rounded-3xl shadow-2xl">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold tracking-widest uppercase text-brand-neon focus-within:text-white transition-colors">Name</label>
               <input 
                 type="text" 
                 placeholder="John Doe" 
-                className="w-full bg-black/40 border-b border-white/20 rounded-t-lg py-3 px-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-neon focus:bg-white/5 transition-all"
+                className="w-full bg-black/40 border-b border-white/20 rounded-t-lg py-2 sm:py-3 px-3 sm:px-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-neon focus:bg-white/5 transition-all text-sm sm:text-base"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -61,7 +61,7 @@ const MorphFooter = () => {
               <input 
                 type="email" 
                 placeholder="john@example.com" 
-                className="w-full bg-black/40 border-b border-white/20 rounded-t-lg py-3 px-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-neon focus:bg-white/5 transition-all"
+                className="w-full bg-black/40 border-b border-white/20 rounded-t-lg py-2 sm:py-3 px-3 sm:px-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-neon focus:bg-white/5 transition-all text-sm sm:text-base"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -69,10 +69,10 @@ const MorphFooter = () => {
               <textarea 
                 placeholder="Tell me about your vision..." 
                 rows="4"
-                className="w-full bg-black/40 border-b border-white/20 rounded-t-lg py-3 px-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-neon focus:bg-white/5 transition-all resize-none"
+                className="w-full bg-black/40 border-b border-white/20 rounded-t-lg py-2 sm:py-3 px-3 sm:px-4 text-white placeholder-white/20 focus:outline-none focus:border-brand-neon focus:bg-white/5 transition-all resize-none text-sm sm:text-base"
               />
             </div>
-            <button type="submit" className="mt-4 w-full py-4 bg-brand-neon text-black hover:bg-white hover:scale-[1.02] transition-all font-bold tracking-widest uppercase rounded-lg shadow-[0_0_20px_rgba(57,255,20,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+            <button type="submit" className="mt-2 sm:mt-4 w-full py-3 sm:py-4 bg-brand-neon text-black hover:bg-white hover:scale-[1.02] transition-all font-bold tracking-widest uppercase rounded-lg text-sm sm:text-base shadow-[0_0_20px_rgba(57,255,20,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
               Ignite Project
             </button>
           </form>

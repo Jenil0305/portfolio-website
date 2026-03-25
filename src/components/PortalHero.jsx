@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -7,14 +7,29 @@ gsap.registerPlugin(ScrollTrigger);
 const PortalHero = () => {
   const containerRef = useRef(null);
   const textRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Pin and Scale animation
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Pin and Scale animation - reduced scale on mobile for better performance
+    const endScroll = isMobile ? '+=150%' : '+=250%';
+    const scaleAmount = isMobile ? 15 : 30;
+    
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top top',
-        end: '+=250%', 
+        end: endScroll, 
         pin: true,
         scrub: true,
         anticipatePin: 1,
@@ -22,18 +37,18 @@ const PortalHero = () => {
     });
 
     tl.to(textRef.current, {
-      scale: 30, // Reduced from 100 to prevent compositor layer dumping
-      opacity: 0, // Swapped from autoAlpha to avoid visibility toggling reflows
-      rotation: 0.01, // Forces strict GPU matrix layout, stops reverse lag
+      scale: scaleAmount,
+      opacity: 0,
+      rotation: 0.01,
       ease: 'none',
       force3D: true,
-      z: 0.1, // Force 3D context
+      z: 0.1,
     }, 0);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-black flex items-center justify-center">
@@ -47,21 +62,21 @@ const PortalHero = () => {
       {/* Hardware-accelerated HTML Text */}
       <div 
         ref={textRef} 
-        className="relative z-10 flex flex-col items-center justify-center pointer-events-none backface-hidden"
+        className="relative z-10 flex flex-col items-center justify-center pointer-events-none backface-hidden px-4"
         style={{ transformOrigin: '50% 50%', willChange: 'transform, opacity' }}
       >
-        <h1 className="text-[25vw] sm:text-[18vw] leading-none font-black tracking-tighter text-white uppercase drop-shadow-[0_0_50px_rgba(57,255,20,0.3)]">
+        <h1 className="text-[20vw] sm:text-[18vw] md:text-[15vw] leading-none font-black tracking-tighter text-white uppercase drop-shadow-[0_0_50px_rgba(57,255,20,0.3)] text-center">
           JN<span className="text-brand-neon">LABS</span>
         </h1>
-        <p className="mt-4 text-sm sm:text-2xl md:text-3xl font-light tracking-[0.3em] sm:tracking-[0.6em] uppercase text-neutral-500 whitespace-nowrap">
+        <p className="mt-2 sm:mt-4 text-[3vw] sm:text-2xl md:text-3xl font-light tracking-[0.2em] sm:tracking-[0.6em] uppercase text-neutral-500 whitespace-nowrap">
           3D × WEB × AI
         </p>
       </div>
 
       {/* Scroll Prompt */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-50 animate-bounce">
-        <span className="text-sm tracking-widest uppercase font-bold text-white">Scroll to enter the studio</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-brand-neon to-transparent" />
+      <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+        <span className="text-xs sm:text-sm tracking-widest uppercase font-bold text-white text-center px-4">Scroll to enter the studio</span>
+        <div className="w-[1px] h-8 sm:h-12 bg-gradient-to-b from-brand-neon to-transparent" />
       </div>
 
     </section>

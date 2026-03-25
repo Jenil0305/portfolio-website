@@ -40,7 +40,7 @@ const HorizontalTrack = () => {
       {/* Absolute Title Pinned basically */}
       <h2 className="absolute top-12 left-12 text-6xl font-bold tracking-tight text-white/50 z-10 
                      mix-blend-overlay uppercase">
-        My Toolkit
+        The Stack
       </h2>
 
       <div ref={TrackRef} className="flex h-full w-[300vw] items-center">
@@ -54,8 +54,7 @@ const HorizontalTrack = () => {
                 <h3 className="text-4xl font-light uppercase tracking-widest">The Aesthetic</h3>
               </div>
               <p className="text-xl text-neutral-400 font-light leading-relaxed">
-                Precision-crafted interfaces using vanilla CSS, Tailwind, and cutting-edge design systems.
-                Every pixel serves a purpose, built on glassmorphic principles and hyper-responsive layouts.
+                Interfaces so precise they feel inevitable. JNlabs crafts every pixel with purpose — glassmorphic layers, fluid motion, and hyper-responsive layouts built in Tailwind and vanilla CSS. Design isn't decoration. It's conversion architecture.
               </p>
             </div>
             <div className="flex-1 h-96 relative">
@@ -76,8 +75,7 @@ const HorizontalTrack = () => {
                 <h3 className="text-4xl font-light uppercase tracking-widest">The Engine</h3>
               </div>
               <p className="text-xl text-neutral-400 font-light leading-relaxed">
-                Under the hood lies a robust architecture powered by React, Vite, and Next.js.
-                Type-safe, component-driven, and optimized for extreme performance.
+                React, Next.js, Vite, and Three.js form the backbone of every JNlabs build. Type-safe, component-driven, and optimized for brutal performance — each site is engineered to load fast, scale clean, and never break under pressure.
               </p>
             </div>
             <div className="flex-1 h-96 relative flex items-center justify-center">
@@ -109,8 +107,7 @@ const HorizontalTrack = () => {
               The AI Edge
             </h3>
             <p className="text-2xl text-neutral-400 max-w-2xl font-light leading-relaxed">
-              Leveraging neural networks and automated agents to drastically accelerate development.
-              From generative assets to algorithmic optimization, AI is deeply integrated into the workflow.
+              AI isn't a buzzword here — it's in the pipeline. JNlabs uses generative models, automated asset creation, and intelligent code acceleration to ship in days what used to take weeks. The result: premium output, without the premium timeline.
             </p>
             
             {/* Glowing nodes fake setup */}

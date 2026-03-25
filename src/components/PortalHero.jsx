@@ -48,15 +48,18 @@ const PortalHero = () => {
       <div ref={textRef} className="z-10 w-full flex justify-center items-center will-change-transform translate-z-0">
         {/* Removed expensive drop-shadow filter which caused lag during scale */}
         <svg viewBox="0 0 1000 200" className="w-[80vw] h-auto font-black">
-          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fill="#fff" className="text-[120px] tracking-tighter" style={{ textShadow: '0 0 40px rgba(57,255,20,0.3)' }}>
-            FRONTEND <tspan fill="none" stroke="#39ff14" strokeWidth="2">x</tspan> AI
+          <text x="50%" y="45%" textAnchor="middle" dominantBaseline="middle" fill="#fff" className="text-[140px] tracking-tighter" style={{ textShadow: '0 0 40px rgba(57,255,20,0.3)' }}>
+            JNLABS
+          </text>
+          <text x="50%" y="85%" textAnchor="middle" dominantBaseline="middle" fill="#888" className="text-[24px] tracking-[0.4em] font-light uppercase">
+            3D × WEB × AI
           </text>
         </svg>
       </div>
       
       {/* Small scroll indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce text-gray-400">
-        <span className="text-sm font-mono uppercase mb-2 text-brand-neon">Scroll to enter</span>
+        <span className="text-sm font-mono uppercase mb-2 text-brand-neon">Scroll to enter the studio</span>
         <div className="w-[1px] h-10 bg-brand-neon/50" />
       </div>
     </section>

@@ -40,9 +40,9 @@ const MorphFooter = () => {
         {/* Massive Mail Link */}
         <div className="flex-1">
           <h2 className="text-[10vw] md:text-[8vw] font-black leading-none tracking-tighter uppercase text-white hover:text-brand-neon transition-colors duration-500 cursor-pointer">
-            Let's <br/>Talk.
+            Let's <br/>Build.
           </h2>
-          <p className="mt-8 text-2xl font-light text-neutral-400">Ready to build the absolute limits of the web?</p>
+          <p className="mt-8 text-2xl font-light text-neutral-400">You've got a vision. JNlabs has the tools, the team, and the AI pipeline to make it real — fast.</p>
         </div>
 
         {/* Minimal Parallax Form in Dark Mode */}

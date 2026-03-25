@@ -114,8 +114,8 @@ const ProcessTimeline = () => {
                     <h3 className="text-3xl font-light tracking-wide">{step.title}</h3>
                     <p className="text-neutral-500 mt-2 max-w-sm ml-auto mr-0 font-light text-lg">
                       {isLeft 
-                        ? "Synthesizing constraints and uncovering opportunities through intense research."
-                        : "Leveraging intelligent systems to architect scalable, resilient project foundations."}
+                        ? (index === 0 ? "We start by understanding your business, your customers, and the gap between them. Goals, constraints, and competitors are mapped before a single line of code is written." : "This is where it gets visual. 3D scenes, WebGL shaders, GSAP animations, and glassmorphic UI come together into a site that stops thumbs and starts conversions.")
+                        : (index === 1 ? "JNlabs uses intelligent design systems to blueprint the site architecture — layouts, flows, and component hierarchies that are scalable before the first pixel is placed." : "Deployed to production pipelines with zero downtime. Clean documentation, optimized assets, and a site that's ready to perform from day one — no cleanup required.")}
                     </p>
                   </div>
                 </div>

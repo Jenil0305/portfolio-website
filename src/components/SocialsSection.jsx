@@ -73,10 +73,10 @@ const SocialsSection = () => {
       <div className="relative z-10 w-full max-w-6xl mx-auto px-10 flex flex-col items-center text-center">
         
         <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase">
-          Find me on the grid
+          Find JNlabs on the Grid
         </h2>
         <p className="text-xl font-light text-neutral-400 max-w-2xl mb-20">
-          Whether you want to inspect my open-source commits, read my thoughts on design engineering, or just say hi—drop by my socials.
+          Whether you want to dig through open-source commits, see what's shipping next, or skip straight to a conversation — the links are below. JNlabs is always one click away.
         </p>
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">

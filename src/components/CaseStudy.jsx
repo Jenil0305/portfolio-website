@@ -135,7 +135,7 @@ const CaseStudy = () => {
                     </nav>
                   </header>
                   <div className="flex-1 flex items-center justify-center flex-col text-center">
-                    <h2 className="text-4xl text-white font-light mb-4">Elevate Your Style</h2>
+                    <h2 className="text-4xl text-white font-light mb-4 text-shadow-md">Where Luxury Meets the Booking Button</h2>
                     <button className="px-6 py-2 bg-white text-black text-sm uppercase">Reserve Spot</button>
                   </div>
                 </div>
@@ -151,7 +151,7 @@ const CaseStudy = () => {
                   style={{ visibility: 'hidden' }}
                 >
                   <h3 className="text-3xl font-bold mb-2 text-brand-neon">Modernized the Booking Flow</h3>
-                  <p className="text-neutral-300">Reduced friction by 40% with a seamless, AI-driven single-page booking application.</p>
+                  <p className="text-neutral-300">Replaced a clunky multi-step form with a single-page, AI-guided booking experience — cutting drop-offs by 40% and turning browsers into booked clients.</p>
                 </div>
 
                 {/* Panel B */}
@@ -161,7 +161,7 @@ const CaseStudy = () => {
                   style={{ visibility: 'hidden' }}
                 >
                   <h3 className="text-3xl font-bold mb-2 text-brand-neon">Lightning Fast Load Times</h3>
-                  <p className="text-neutral-300">Achieved a perfect 100 on Lighthouse. Next-gen image formats and aggressive caching mechanisms.</p>
+                  <p className="text-neutral-300">A perfect 100 Lighthouse score. Next-gen image formats, edge caching, and zero render-blocking scripts — because slow sites lose customers before the first scroll.</p>
                 </div>
 
                 {/* Panel C */}
@@ -170,8 +170,8 @@ const CaseStudy = () => {
                   className="absolute p-6 w-[60%] bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
                   style={{ visibility: 'hidden' }}
                 >
-                  <h3 className="text-3xl font-bold mb-2 text-brand-neon">AI-Optimized Assets</h3>
-                  <p className="text-neutral-300">Utilized Stable Diffusion and programmatic pipelines to generate ultra-high-res hero components instantly.</p>
+                  <h3 className="text-3xl font-bold mb-2 text-brand-neon">AI-Generated Visual Assets</h3>
+                  <p className="text-neutral-300">Every hero image, banner, and background was generated via Stable Diffusion pipelines — on-brand, ultra-high-resolution, and produced in a fraction of the time of a traditional photoshoot.</p>
                 </div>
 
               </div>

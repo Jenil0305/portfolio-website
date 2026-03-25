@@ -16,21 +16,21 @@ const PortalHero = () => {
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
       // Pin and Scale animation - reduced scale on mobile for better performance
-      const endScroll = isMobile ? '+=150%' : '+=250%';
-      const scaleAmount = isMobile ? 15 : 30;
-      
+      const endScroll = isMobile ? '+=10%' : '+=250%';
+      const scaleAmount = isMobile ? 10 : 30;
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: endScroll, 
+          end: endScroll,
           pin: true,
           scrub: true,
           anticipatePin: 1,
@@ -52,7 +52,7 @@ const PortalHero = () => {
 
   return (
     <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-black flex items-center justify-center">
-      
+
       {/* Dynamic Starfield Background */}
       <div className="absolute inset-0 z-0 opacity-40 select-none pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-neon/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" />
@@ -60,8 +60,8 @@ const PortalHero = () => {
       </div>
 
       {/* Hardware-accelerated HTML Text */}
-      <div 
-        ref={textRef} 
+      <div
+        ref={textRef}
         className="relative z-10 flex flex-col items-center justify-center pointer-events-none backface-hidden px-4"
         style={{ transformOrigin: '50% 50%', willChange: 'transform, opacity' }}
       >

@@ -15,25 +15,24 @@ const HorizontalTrack = () => {
       const trackWidth = TrackRef.current.scrollWidth;
       const windowWidth = window.innerWidth;
       const scrollDistance = trackWidth - windowWidth;
-      // On mobile, increase scroll distance so it takes more effort to scroll through
-      const scrollMultiplier = windowWidth < 768 ? 1.8 : 1;
-      const totalScrollDistance = scrollDistance * scrollMultiplier;
+      const isMobileView = windowWidth < 768;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: SectionRef.current,
           start: 'top top',
-          end: () => `+=${totalScrollDistance}`,
+          end: () => `+=${scrollDistance}`,
           pin: true,
-          scrub: 1,
+          // Higher scrub on mobile = more damping = prevents fast swipes from skipping slides
+          scrub: isMobileView ? 3 : 1,
           invalidateOnRefresh: true,
           onLeave: () => {
-            // Hide the section after pin releases to prevent ghost panel
-            gsap.set(SectionRef.current, { autoAlpha: 0 });
+            // Hide and collapse the section to prevent ghost panel and black space
+            gsap.set(SectionRef.current, { autoAlpha: 0, height: 0, overflow: 'hidden' });
           },
           onEnterBack: () => {
-            // Show it again when scrolling back up
-            gsap.set(SectionRef.current, { autoAlpha: 1 });
+            // Restore section when scrolling back up
+            gsap.set(SectionRef.current, { autoAlpha: 1, height: '100vh', overflow: 'hidden' });
           },
         }
       });

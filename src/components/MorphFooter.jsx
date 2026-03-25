@@ -9,24 +9,24 @@ const MorphFooter = () => {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    // Parallax effect on the content
-    gsap.fromTo(contentRef.current,
-      { y: -150 },
-      {
-        y: 50,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: 'top bottom',
-          end: 'bottom bottom',
-          scrub: true,
+    let ctx = gsap.context(() => {
+      // Parallax effect on the content
+      gsap.fromTo(contentRef.current,
+        { y: -150 },
+        {
+          y: 50,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: 'top bottom',
+            end: 'bottom bottom',
+            scrub: true,
+          }
         }
-      }
-    );
+      );
+    });
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+    return () => ctx.revert();
   }, []);
 
   return (

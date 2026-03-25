@@ -23,40 +23,40 @@ const SocialsSection = () => {
   ];
 
   useEffect(() => {
-    // Animate the large background text
-    gsap.fromTo(textRef.current, 
-      { x: '10%' },
-      {
-        x: '-20%',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
+    let ctx = gsap.context(() => {
+      // Animate the large background text
+      gsap.fromTo(textRef.current, 
+        { x: '10%' },
+        {
+          x: '-20%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          }
         }
-      }
-    );
+      );
 
-    // Stagger social blocks
-    gsap.fromTo(linksRef.current,
-      { y: 100, autoAlpha: 0 },
-      {
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'back.out(1.5)',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
+      // Stagger social blocks
+      gsap.fromTo(linksRef.current,
+        { y: 100, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'back.out(1.5)',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 70%',
+          }
         }
-      }
-    );
+      );
+    });
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+    return () => ctx.revert();
   }, []);
 
   return (

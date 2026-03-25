@@ -24,118 +24,118 @@ const CaseStudy = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
-      // Mobile: Simple fade-in animation without complex 3D transforms
-      gsap.fromTo(laptopRef.current,
-        { autoAlpha: 0, scale: 0.8 },
-        {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 70%',
-          }
-        }
-      );
-
-      // Show screen content immediately
-      gsap.set(screenContentRef.current, { opacity: 1 });
-
-      // Stagger in panels with simple animation
-      panelsRef.current.forEach((panel) => {
-        gsap.fromTo(panel,
-          { autoAlpha: 0, y: 30 },
+    let ctx = gsap.context(() => {
+      if (isMobile) {
+        // Mobile: Simple fade-in animation without complex 3D transforms
+        gsap.fromTo(laptopRef.current,
+          { autoAlpha: 0, scale: 0.8 },
           {
             autoAlpha: 1,
-            y: 0,
-            duration: 0.6,
+            scale: 1,
+            duration: 0.8,
             ease: 'power2.out',
             scrollTrigger: {
-              trigger: panel,
-              start: 'top 85%',
+              trigger: containerRef.current,
+              start: 'top 70%',
             }
           }
         );
-      });
-    } else {
-      // Desktop: Full 3D animation
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: '+=400%',
-          pin: true,
-          scrub: 1,
-        }
-      });
 
-      // Phase 1: Open Lid
-      tl.to(lidRef.current, {
-        rotateX: 0,
-        duration: 1,
-        ease: 'power2.inOut'
-      }, 0);
+        // Show screen content immediately
+        gsap.set(screenContentRef.current, { opacity: 1 });
 
-      // Turn on screen content opacity
-      tl.to(screenContentRef.current, {
-        opacity: 1,
-        duration: 0.2
-      }, 0.8);
+        // Stagger in panels with simple animation
+        panelsRef.current.forEach((panel) => {
+          gsap.fromTo(panel,
+            { autoAlpha: 0, y: 30 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.6,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: panel,
+                start: 'top 85%',
+              }
+            }
+          );
+        });
+      } else {
+        // Desktop: Full 3D animation
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            end: '+=400%',
+            pin: true,
+            scrub: 1,
+          }
+        });
 
-      // Phase 2: Zoom into the screen
-      tl.to(laptopRef.current, {
-        scale: 5,
-        y: '120vh',
-        duration: 1.5,
-        ease: 'power3.inOut'
-      }, 1);
+        // Phase 1: Open Lid
+        tl.to(lidRef.current, {
+          rotateX: 0,
+          duration: 1,
+          ease: 'power2.inOut'
+        }, 0);
 
-      // Phase 3: Blur background and show panels
-      tl.to(screenContentRef.current, {
-        filter: 'blur(5px) brightness(0.5)',
-        duration: 0.5
-      }, 2.5);
+        // Turn on screen content opacity
+        tl.to(screenContentRef.current, {
+          opacity: 1,
+          duration: 0.2
+        }, 0.8);
 
-      // Stagger in panels
-      panelsRef.current.forEach((panel, index) => {
-        tl.fromTo(panel,
-          { autoAlpha: 0, x: index % 2 === 0 ? -100 : 100 },
-          { autoAlpha: 1, x: 0, duration: 0.5 },
-          2.5 + index * 0.8
-        );
-        if (index < panelsRef.current.length - 1) {
-          tl.to(panel, {
-            autoAlpha: 0,
-            x: index % 2 === 0 ? 100 : -100,
-            duration: 0.5
-          }, 3.0 + index * 0.8);
-        }
-      });
+        // Phase 2: Zoom into the screen
+        tl.to(laptopRef.current, {
+          scale: 5,
+          y: '120vh',
+          duration: 1.5,
+          ease: 'power3.inOut'
+        }, 1);
 
-      // Phase 4: Scale down
-      tl.to(laptopRef.current, {
-        scale: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power2.inOut'
-      }, '+=0.5');
+        // Phase 3: Blur background and show panels
+        tl.to(screenContentRef.current, {
+          filter: 'blur(5px) brightness(0.5)',
+          duration: 0.5
+        }, 2.5);
 
-      tl.to(screenContentRef.current, {
-        filter: 'blur(0px) brightness(1)',
-        duration: 0.5
-      }, '<');
+        // Stagger in panels
+        panelsRef.current.forEach((panel, index) => {
+          tl.fromTo(panel,
+            { autoAlpha: 0, x: index % 2 === 0 ? -100 : 100 },
+            { autoAlpha: 1, x: 0, duration: 0.5 },
+            2.5 + index * 0.8
+          );
+          if (index < panelsRef.current.length - 1) {
+            tl.to(panel, {
+              autoAlpha: 0,
+              x: index % 2 === 0 ? 100 : -100,
+              duration: 0.5
+            }, 3.0 + index * 0.8);
+          }
+        });
 
-      tl.to(panelsRef.current[panelsRef.current.length - 1], {
-        autoAlpha: 0,
-        duration: 0.5
-      }, '<');
-    }
+        // Phase 4: Scale down
+        tl.to(laptopRef.current, {
+          scale: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.inOut'
+        }, '+=0.5');
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+        tl.to(screenContentRef.current, {
+          filter: 'blur(0px) brightness(1)',
+          duration: 0.5
+        }, '<');
+
+        tl.to(panelsRef.current[panelsRef.current.length - 1], {
+          autoAlpha: 0,
+          duration: 0.5
+        }, '<');
+      }
+    });
+
+    return () => ctx.revert();
   }, [isMobile]);
 
   // Mobile Layout - Simplified card-based view
@@ -181,14 +181,6 @@ const CaseStudy = () => {
           >
             <h3 className="text-lg font-bold mb-2 text-brand-neon">Lightning Fast Load Times</h3>
             <p className="text-sm text-neutral-300">A perfect 100 Lighthouse score. Next-gen image formats, edge caching, and zero render-blocking scripts.</p>
-          </div>
-
-          <div 
-            ref={el => panelsRef.current[2] = el}
-            className="p-5 bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl text-white"
-          >
-            <h3 className="text-lg font-bold mb-2 text-brand-neon">AI-Generated Visual Assets</h3>
-            <p className="text-sm text-neutral-300">Every hero image, banner, and background was generated via Stable Diffusion pipelines.</p>
           </div>
         </div>
       </section>
@@ -264,16 +256,6 @@ const CaseStudy = () => {
                   >
                     <h3 className="text-xl sm:text-3xl font-bold mb-2 text-brand-neon">Lightning Fast Load Times</h3>
                     <p className="text-sm sm:text-base text-neutral-300">A perfect 100 Lighthouse score. Next-gen image formats, edge caching, and zero render-blocking scripts — because slow sites lose customers before the first scroll.</p>
-                  </div>
-
-                  {/* Panel C */}
-                  <div 
-                    ref={el => panelsRef.current[2] = el}
-                    className="absolute p-6 w-[70%] sm:w-[60%] bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl text-white shadow-2xl"
-                    style={{ visibility: 'hidden' }}
-                  >
-                    <h3 className="text-xl sm:text-3xl font-bold mb-2 text-brand-neon">AI-Generated Visual Assets</h3>
-                    <p className="text-sm sm:text-base text-neutral-300">Every hero image, banner, and background was generated via Stable Diffusion pipelines — on-brand, ultra-high-resolution, and produced in a fraction of the time of a traditional photoshoot.</p>
                   </div>
 
                 </div>

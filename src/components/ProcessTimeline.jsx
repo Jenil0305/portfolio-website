@@ -19,51 +19,54 @@ const ProcessTimeline = () => {
   ], []);
 
   useEffect(() => {
-    // Animate the line fill and dot
-    gsap.to(lineFillRef.current, {
-      scaleY: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top center',
-        end: 'bottom center',
-        scrub: true,
-      }
-    });
-
-    gsap.to(dotRef.current, {
-      top: '100%',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top center',
-        end: 'bottom center',
-        scrub: true,
-      }
-    });
-
-    // Animate nodes fading in
-    nodesRef.current.forEach((node, i) => {
-      const isLeft = steps[i].side === 'left';
-      gsap.fromTo(node,
-        { autoAlpha: 0, x: isLeft ? -50 : 50, filter: 'blur(10px)' },
-        {
-          autoAlpha: 1,
-          x: 0,
-          filter: 'blur(0px)',
-          duration: 0.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: node,
-            start: 'top 60%',
-          }
+    let ctx = gsap.context(() => {
+      // Animate the line fill and dot
+      gsap.to(lineFillRef.current, {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top center',
+          end: 'bottom center',
+          scrub: true,
         }
-      );
-    });
+      });
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+      gsap.to(dotRef.current, {
+        top: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top center',
+          end: 'bottom center',
+          scrub: true,
+        }
+      });
+
+      // Animate nodes fading in
+      nodesRef.current.forEach((node, i) => {
+        if (!node) return;
+        const isLeft = steps[i].side === 'left';
+        
+        // Removed heavy filters and adjusted start bounds to strictly ensure mobile compatibility
+        gsap.fromTo(node,
+          { autoAlpha: 0, y: 50, x: isLeft ? -30 : 30 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            x: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: node,
+              start: 'top 85%',
+            }
+          }
+        );
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
   }, [steps]);
 
   return (
@@ -103,10 +106,10 @@ const ProcessTimeline = () => {
             <div 
               key={index} 
               ref={el => nodesRef.current[index] = el}
-              className={`relative w-full flex items-center pl-12 md:pl-0 justify-start md:${isLeft ? 'justify-start' : 'justify-end'}`}
+              className={`relative w-full flex items-center pl-12 md:pl-0 justify-start ${isLeft ? 'md:justify-start' : 'md:justify-end'}`}
             >
-              <div className={`w-full md:w-1/2 ${isLeft ? 'md:pr-20 md:text-right' : 'md:pl-20 md:text-left'} pl-0 md:pl-0`}>
-                <div className={`flex flex-col md:items-center items-start gap-3 sm:gap-4 md:gap-6 md:${isLeft ? 'flex-row-reverse' : 'flex-row'}`}>
+              <div className={`w-full md:w-1/2 ${isLeft ? 'md:pr-20 md:text-right' : 'md:pl-20 md:text-left'}`}>
+                <div className={`flex flex-col md:items-center items-start gap-3 sm:gap-4 md:gap-6 ${isLeft ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
                   <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 shrink-0 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md">
                     <Icon className="text-brand-neon w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
                   </div>

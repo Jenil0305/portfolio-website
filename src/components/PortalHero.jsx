@@ -21,33 +21,33 @@ const PortalHero = () => {
   }, []);
 
   useEffect(() => {
-    // Pin and Scale animation - reduced scale on mobile for better performance
-    const endScroll = isMobile ? '+=150%' : '+=250%';
-    const scaleAmount = isMobile ? 15 : 30;
-    
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: endScroll, 
-        pin: true,
-        scrub: true,
-        anticipatePin: 1,
-      }
+    let ctx = gsap.context(() => {
+      // Pin and Scale animation - reduced scale on mobile for better performance
+      const endScroll = isMobile ? '+=150%' : '+=250%';
+      const scaleAmount = isMobile ? 15 : 30;
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: endScroll, 
+          pin: true,
+          scrub: true,
+          anticipatePin: 1,
+        }
+      });
+
+      tl.to(textRef.current, {
+        scale: scaleAmount,
+        opacity: 0,
+        rotation: 0.01,
+        ease: 'none',
+        force3D: true,
+        z: 0.1,
+      }, 0);
     });
 
-    tl.to(textRef.current, {
-      scale: scaleAmount,
-      opacity: 0,
-      rotation: 0.01,
-      ease: 'none',
-      force3D: true,
-      z: 0.1,
-    }, 0);
-
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+    return () => ctx.revert();
   }, [isMobile]);
 
   return (

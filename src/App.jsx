@@ -31,7 +31,7 @@ function App() {
       lenis.raf(time * 1000);
     });
 
-    gsap.ticker.lagSmoothing(0);
+    // gsap.ticker.lagSmoothing(0); // Disabled to allow GSAP to handle frame spikes more gracefully
 
     return () => {
       lenis.destroy();
